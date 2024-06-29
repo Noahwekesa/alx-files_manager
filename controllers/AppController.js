@@ -4,12 +4,13 @@ const redisClient = require("../utils/redis");
 class AppController {
   static async getStatus(req, res) {
     const isRedisAlive = redisClient.isAlive();
-    const isDBAlive = dbClient.isAlive();
+    const isDbAlive = dbClient.isAlive();
+
     try {
       await dbClient.connect();
-      return res.status(200).json({ redis: isRedisAlive, db: isDBAlive });
+      return res.status(200).json({ redis: isRedisAlive, db: isDbAlive });
     } catch (error) {
-      consoe.error(`Error checking DB connection:${error}`);
+      console.error("Error checking DB connection:", error);
       return res.status(500).json({ error: "Internal server error" });
     }
   }
@@ -26,3 +27,5 @@ class AppController {
     }
   }
 }
+
+module.exports = AppController;

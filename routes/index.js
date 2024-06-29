@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+const express = require("express");
+
 const AppController = require("../controllers/AppController");
 
 const router = Router();
