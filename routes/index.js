@@ -1,15 +1,18 @@
-import { Router } from "express";
+import express from "express";
+import auth from "../utils/auth";
+import { getStatus, getStats } from "../controllers/AppController";
+import { postNew, getMe } from "../controllers/UsersController";
+import { getConnect, getDisconnect } from "../controllers/AuthController";
+import { postUpload } from "../controllers/FilesController";
 
-const express = require("express");
+const router = express.Router();
 
-const AppController = require("../controllers/AppController");
-const UserController = require("../controllers/UserController");
+router.get("/status", getStatus);
+router.get("/stats", getStats);
+router.post("/users", postNew);
+router.get("/users/me", auth, getMe);
+router.get("/connect", getConnect);
+router.get("/disconnect", auth, getDisconnect);
+router.post("/files", auth, postUpload);
 
-const router = Router();
-
-// route
-router.get("/status", AppController.getStatus);
-router.get("/stats", AppController.getStats);
-router.post("/users", UserController.postNewUser);
-
-module.exports = router;
+export default router;
