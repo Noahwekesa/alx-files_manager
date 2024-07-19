@@ -1,18 +1,42 @@
-import express from "express";
-import auth from "../utils/auth";
-import { getStatus, getStats } from "../controllers/AppController";
-import { postNew, getMe } from "../controllers/UsersController";
-import { getConnect, getDisconnect } from "../controllers/AuthController";
-import { postUpload } from "../controllers/FilesController";
+import express from 'express';
+import AppController from '../controllers/AppController';
+import UsersController from '../controllers/UsersController';
+import AuthController from '../controllers/AuthController';
 
 const router = express.Router();
 
-router.get("/status", getStatus);
-router.get("/stats", getStats);
-router.post("/users", postNew);
-router.get("/users/me", auth, getMe);
-router.get("/connect", getConnect);
-router.get("/disconnect", auth, getDisconnect);
-router.post("/files", auth, postUpload);
+const routeController = (app) => {
+  app.use('/', router);
 
-export default router;
+  // App Controller
+
+  router.get('/status', (req, res) => {
+    AppController.getStatus(req, res);
+  });
+
+  router.get('/stats', (req, res) => {
+    AppController.getStats(req, res);
+  });
+
+  router.post('/users', (req, res) => {
+    UsersController.postNew(req, res);
+  });
+
+  router.get('/connect', (req, res) => {
+    AuthController.getConnect(req, res);
+  });
+
+  router.get('/disconnect', (req, res) => {
+    AuthController.getDisconnect(req, res);
+  });
+
+  router.get('/users/me', (req, res) => {
+    UsersController.getMe(req, res);
+  });
+
+  // router.post('/files', (req, res) => {
+  //   FilesController.postUpload(req, res);
+  // });
+};
+
+export default routeController;
